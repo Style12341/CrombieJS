@@ -65,7 +65,7 @@ Luego, crea una función genérica getId que tome un parámetro id de tipo Id y 
 Prueba la función con diferentes tipos de Id y verifica que el mensaje sea correcto.
 */
 type Id = number | string
-function getId(id: Id): string {
+function getId<T extends Id>(id: T): string {
 
     if (typeof id === "string") {
         return "El id es un string"
