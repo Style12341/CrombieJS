@@ -195,7 +195,94 @@ class Coche {
         return `Auto ${this.marca} modelo ${this.modelo} del anio ${this.#anio}`
     }
 }
+/* En este ejercicio, crearás un tipo personalizado llamado "Profesor" que representará a un docente. 
+El tipo "Profesor" extenderá el tipo "Persona", que contiene las propiedades básicas de una persona, como el nombre y la edad (usar interface o type).
 
+El tipo "Profesor", contará con una propiedad llamada "subjects", que representa las materias que enseña (tipar), y otra propiedad llamada "yearsOfExperience"
+
+Implementar una función que cree un profesor y lo pushee a un array.
+Implementar una función que, dado el nombre de un profesor, actualice sus años de experiencia.
+Implementar una función que agregue materias al profesor.
+
+Ahora crearemos el tipo "Alumno", que extiende al tipo "Persona".
+El tipo "Alumno", contará con las siguientes propiedades: DNI, subjects, faltas y profesor.
+
+Implementar una función que cree un alumno y le agregue un profesor
+Implementar una función que, dado el DNI de un alumno, devuelva sus faltas (Si tiene más de 20, devolver un texto mostrando que quedó libre). */
 const coche: Coche = new Coche("toyota", "fielder", 2009)
 console.log("Ejericico 10")
 console.log(coche.obtenerInfo())
+//Parte dos ejercicio 11
+type Subject = {
+    name: string;
+    hours: number;
+}
+interface Profesor extends Persona {
+    yearsOfExperience: number;
+    subjects: Subject[];
+}
+interface Alumno extends Persona {
+    dni: string;
+    subjects: Subject[];
+    faltas: number;
+    profesor: Profesor;
+}
+const profesores: Profesor[] = []
+const alumnos: Alumno[] = []
+function addProfesor(p: Persona) {
+    const profesor: Profesor = {
+        ...p,
+        yearsOfExperience: 0,
+        subjects: []
+    }
+    profesores.push(profesor)
+}
+function updateYearsOfExperience(name: string, years: number) {
+    const profesor = profesores.find(p => p.nombre === name);
+    if (profesor) {
+        profesor.yearsOfExperience = years;
+    } else
+        return "El profesor no existe"
+    return profesor;
+}
+function addSubject(name: string, subject: Subject) {
+    const profesor = profesores.find(p => p.nombre === name);
+    if (profesor) {
+        profesor.subjects.push(subject);
+    }
+    return profesor;
+}
+function addAlumno(p: Persona, dni: string, profesor: Profesor) {
+    const alumno: Alumno = {
+        ...p,
+        dni,
+        faltas: 0,
+        subjects: profesor.subjects,
+        profesor
+    }
+    alumnos.push(alumno)
+    return alumno;
+}
+function getFaltas(dni: string) {
+    const alumno = alumnos.find(a => a.dni === dni);
+    if (alumno) {
+        if (alumno.faltas > 20) {
+            return "El alumno quedo libre"
+        }
+        return alumno.faltas;
+    } else
+        return "El alumno no existe"
+}
+const p1: Persona = {
+    nombre: "Juan",
+    edad: 30,
+    estadoCivil: "casado"
+}
+const prof1 = addProfesor(p1);
+console.log(profesores)
+console.log(updateYearsOfExperience("Juan", 10))
+console.log(addSubject("Juan", { name: "Matematica", hours: 10 }))
+const a1 = addAlumno(p1, "123", profesores[0])
+console.log("Faltas de alumno " + getFaltas("123"))
+a1.faltas = 21
+console.log(getFaltas("123"))
