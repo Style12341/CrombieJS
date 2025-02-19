@@ -1,6 +1,6 @@
 import getCategories from "./categories"
 
-export default function getProducts(categoryId?: string | null | undefined) {
+export default function getProducts(categoryName?: string | null | undefined) {
     const categories = getCategories();
     const products: Product[] = [
         {
@@ -37,9 +37,9 @@ export default function getProducts(categoryId?: string | null | undefined) {
 
         },
     ]
-    const result = categoryId ? filterProductsByCategory(products, categoryId) : products;
+    const result = categoryName ? filterProductsByCategory(products, categoryName) : products;
     return result;
 }
-function filterProductsByCategory(products: Product[], categoryId: string) {
-    return products.filter(product => product.category.id === categoryId);
+function filterProductsByCategory(products: Product[], categoryName: string) {
+    return products.filter(product => product.category.name === categoryName);
 }
