@@ -10,3 +10,9 @@ type Category = {
     id: string;
     name: string;
 }
+type User = {
+    name: string;
+    email: string;
+    image?: string;
+    favorites: Product[];
+}
