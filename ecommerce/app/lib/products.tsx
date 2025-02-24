@@ -40,6 +40,10 @@ export default function getProducts(categoryName?: string | null | undefined) {
     const result = categoryName ? filterProductsByCategory(products, categoryName) : products;
     return result;
 }
+export function getProductById(productId: string) {
+    const products = getProducts();
+    return products.find(product => product.id === productId);
+}
 function filterProductsByCategory(products: Product[], categoryName: string) {
     return products.filter(product => product.category.name === categoryName);
 }
