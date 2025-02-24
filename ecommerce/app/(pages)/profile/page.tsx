@@ -1,5 +1,5 @@
 import Image from "next/image";
-import getUser from "../lib/users";
+import getUser from "../../lib/users";
 import ProductCard from "../products/productCard";
 
 export default function Home() {

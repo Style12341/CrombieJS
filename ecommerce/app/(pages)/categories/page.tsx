@@ -1,4 +1,4 @@
-import getCategories from "../lib/categories";
+import getCategories from "../../lib/categories";
 import Card from "../ui/card";
 import Link from "next/link";
 
