@@ -1,18 +1,19 @@
 type Product = {
-    id: string;
-    name: string;
-    price: number;
-    image?: string;
-    description: string;
-    category: Category;
-}
+  id: string;
+  name: string;
+  price: number;
+  image?: string;
+  description: string;
+  category: Category;
+};
 type Category = {
-    id: string;
-    name: string;
-}
+  id: string;
+  name: string;
+};
 type User = {
-    name: string;
-    email: string;
-    image?: string;
-    favorites: Product[];
-}
+  name: string;
+  email: string;
+  image?: string;
+  favorites: Product[];
+};
+type IdParam = { params: Promise<{ Id: string }> };

@@ -1,4 +1,4 @@
-export default function getCategories(){
+export default function getCategories() {
     const categories: Category[] = [
         {
             id: "1",
@@ -12,5 +12,9 @@ export default function getCategories(){
             id: "3",
             name: "Category3",
         }];
-        return categories;
+    return categories;
+}
+export function getCategoryById(categoryId: string) {
+    const categories = getCategories();
+    return categories.find(category => category.id === categoryId);
 }
