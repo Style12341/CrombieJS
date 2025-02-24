@@ -1,4 +1,3 @@
-"use client"
 import getProducts from "../../lib/products";
 import ProductCard from "./productCard";
 export default function Home() {
