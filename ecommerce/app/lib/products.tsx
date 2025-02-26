@@ -13,6 +13,7 @@ export default async function getProducts(categoryName?: string | null | undefin
             image: `/images/product${Math.floor(Math.random() * 4 + 1)}.png`,
             category: { id: product.categoryId ?? "", name: product.category?.name ?? "" },
         }));
+        console.log(productsDTO);
         return productsDTO;
     }
     const productsWithCategories = await prisma.product.findMany({

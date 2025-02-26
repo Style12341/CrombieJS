@@ -19,6 +19,7 @@ export default function CreateProducts() {
       }
     }
     fetchCategories();
+    setCategory(categories[0]?.id ?? "");
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -5,7 +5,7 @@ export default async function Home() {
     return (
         <section className="">
             <h1 className="text-4xl text-center">Products</h1>
-            <ul className="flex justify-center gap-4 p-4">
+            <ul className="grid grid-cols-4 px-10 justify-center gap-4 p-4">
                 {products.map(product => (
                     <ProductCard key={product.id} product={product} />
                 ))}
