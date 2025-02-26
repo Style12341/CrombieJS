@@ -1,10 +1,12 @@
-import getProducts from "@/app/lib/products";
-import { NextResponse } from "next/server";
+import getProducts, { createProduct } from "@/app/lib/products";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(): Promise<Response> {
-  const products = getProducts();
+  const products = await getProducts();
   return NextResponse.json(products);
 }
-export async function POST(): Promise<Response> {
-  return NextResponse.json({ message: "POST request received" });
+export async function POST(request: NextRequest): Promise<Response> {
+  const body: Product = await request.json();
+  const p = createProduct(body);
+  return NextResponse.json(p, { status: 201 });
 }

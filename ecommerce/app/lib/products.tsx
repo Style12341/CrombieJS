@@ -1,49 +1,79 @@
-import getCategories from "./categories"
+import prisma from "./prisma";
 
-export default function getProducts(categoryName?: string | null | undefined) {
-    const categories = getCategories();
-    const products: Product[] = [
-        {
-            id: "1",
-            name: "Product 1",
-            price: 100,
-            description: "This is a description for product 1",
-            category: categories[0],
-            image: "/images/product1.png"
+export default async function getProducts(categoryName?: string | null | undefined) {
+    if (!categoryName) {
+        const products = await prisma.product.findMany({
+            include: { category: true },
+        });
+        const productsDTO: Product[] = products.map(product => ({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: `/images/product${Math.floor(Math.random() * 4 + 1)}.png`,
+            category: { id: product.categoryId ?? "", name: product.category?.name ?? "" },
+        }));
+        return productsDTO;
+    }
+    const productsWithCategories = await prisma.product.findMany({
+        include: { category: true },
+        where: {
+            category: {
+                name: categoryName,
+            },
         },
-        {
-            id: "2",
-            name: "Product 2",
-            price: 200,
-            description: "This is a description for product 2",
-            category: categories[1],
-            image: "/images/product2.png"
-        },
-        {
-            id: "3",
-            name: "Product 3",
-            price: 300,
-            description: "This is a description for product 3",
-            category: categories[0],
-            image: "/images/product3.png"
-        },
-        {
-            id: "4",
-            name: "Product 4",
-            price: 400,
-            description: "This is a description for product 4",
-            category: categories[2],
-            image: "/images/product4.png"
-
-        },
-    ]
-    const result = categoryName ? filterProductsByCategory(products, categoryName) : products;
-    return result;
+    });
+    const productsDTO: Product[] = productsWithCategories.map(product => ({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        image: `/images/product${Math.floor(Math.random() * 4 + 1)}.png`,
+        category: { id: product.categoryId ?? "", name: product.category?.name ?? "" },
+    }));
+    return productsDTO;
 }
-export function getProductById(productId: string) {
-    const products = getProducts();
-    return products.find(product => product.id === productId);
+export async function getProductById(productId: string) {
+    const p = await prisma.product.findUnique({
+        include: { category: true },
+        where: { id: productId },
+    });
+    if (!p) {
+        return null;
+    }
+    const pDTO: Product = {
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        image: `/images/product${Math.floor(Math.random() * 4 + 1)}.png`,
+        category: { id: p.categoryId ?? "", name: p.category?.name ?? "" },
+    }
+    return pDTO;
 }
-function filterProductsByCategory(products: Product[], categoryName: string) {
-    return products.filter(product => product.category.name === categoryName);
+export async function createProduct(product: Product) {
+    return await prisma.product.create({
+        data: {
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            categoryId: product.category.id,
+        },
+    });
+}
+export async function updateProduct(productId: string, product: Product) {
+    return await prisma.product.update({
+        where: { id: productId },
+        data: {
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            categoryId: product.category.id,
+        },
+    });
+}
+export async function deleteProduct(productId: string) {
+    return await prisma.product.delete({
+        where: { id: productId },
+    });
 }

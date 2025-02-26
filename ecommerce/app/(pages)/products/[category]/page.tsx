@@ -2,7 +2,7 @@ import getProducts from "@/app/lib/products";
 import ProductCard from "../productCard";
 export default async function Home({ params, }: { params: Promise<{ category: string }> }) {
     const categoryParam = (await params).category;
-    const products = getProducts(categoryParam);
+    const products = await getProducts(categoryParam);
     return (
         <section className="">
             <h1 className="text-4xl text-center">Products</h1>

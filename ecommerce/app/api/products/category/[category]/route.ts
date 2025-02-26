@@ -6,6 +6,6 @@ export async function GET(
   { params }: { params: Promise<{ category: string }> }
 ): Promise<Response> {
   const category = (await params).category ?? null;
-  const products = getProducts(category);
+  const products = await getProducts(category);
   return NextResponse.json(products);
 }

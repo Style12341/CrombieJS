@@ -2,8 +2,8 @@ import getCategories from "../../lib/categories";
 import Card from "../ui/card";
 import Link from "next/link";
 
-export default function Home() {
-    const categories = getCategories();
+export default async function Home() {
+    const categories = await getCategories();
     return (
         <section>
             <h1 className="text-4xl text-center">Categories</h1>

@@ -2,8 +2,8 @@ import Image from "next/image";
 import getUser from "../../lib/users";
 import ProductCard from "../products/productCard";
 
-export default function Home() {
-    const user = getUser();
+export default async function Home() {
+    const user = await getUser();
     return (
         <section>
             <h1 className="text-4xl text-center">Profile</h1>

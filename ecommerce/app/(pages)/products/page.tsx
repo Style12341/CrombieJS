@@ -1,7 +1,7 @@
 import getProducts from "../../lib/products";
 import ProductCard from "./productCard";
-export default function Home() {
-    const products = getProducts();
+export default async function Home() {
+    const products = await getProducts();
     return (
         <section className="">
             <h1 className="text-4xl text-center">Products</h1>
