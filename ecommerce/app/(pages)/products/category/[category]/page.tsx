@@ -1,5 +1,5 @@
 import getProducts from "@/app/lib/products";
-import ProductCard from "../productCard";
+import ProductCard from "../../productCard";
 export default async function Home({ params, }: { params: Promise<{ category: string }> }) {
     const categoryParam = (await params).category;
     const products = await getProducts(categoryParam);

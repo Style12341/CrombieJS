@@ -10,7 +10,7 @@ export default async function Home() {
             <ul className="flex justify-center gap-4 p-4">
                 {categories.map(category => (
                     <Card key={category.id} header={category.name} className="p-4">
-                        <Link href={`/products/${category.name}`} className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}>
+                        <Link href={`/products/category/${category.name}`} className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}>
                             See Products
                         </Link>
                     </Card>
