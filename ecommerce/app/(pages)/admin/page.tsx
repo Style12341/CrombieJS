@@ -1,17 +1,18 @@
 import getCategories from "@/app/lib/categories";
 import ProductForm from "./productForm";
-import getProducts from "@/app/lib/products";
-import ProductTable from "./productTable";
+import Link from "next/link";
 
 
 export default async function AdminPage() {
-  const categories = await getCategories();
-  const products = await getProducts();
 
-  return (<section>
-    <ProductForm categories={categories} />
-    <ProductTable products={products} />
-  </section>
+  const categories = await getCategories();
+  return (
+    <section className="grid place-items-center p-8 gap-4">
+      <ProductForm categories={categories} />
+      <Link href="/admin/products" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}>
+        See Products
+      </Link>
+    </section>
   )
 
 }
