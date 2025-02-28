@@ -20,33 +20,40 @@ export default async function getProducts(categoryName?: string | null | undefin
     const productsDTO: ProductDTO[] = productsWithCategories.map(p => createProductDTO(p));
     return productsDTO;
 }
-export async function getProductsPaginated(page: number, limit: number, searchName: string = ""): Promise<{ pages: number, products: ProductDTO[] }> {
-    const productCount = await prisma.product.count({where: {name: {contains: searchName}}});
-    limit = limit ?? 4;
-    page = page ?? 1;
-    limit = Math.max(1, limit);
-    const pages = Math.ceil(productCount / limit);
-    page = Math.max(1, page);
-    page = Math.min(page, pages);
-    if (searchName) {
-        const products = await prisma.product.findMany({
-            include: { category: true },
-            where: {
-                name: {
-                    contains: searchName,
-                },
-            },
-            skip: (page - 1) * limit,
-            take: limit,
-        });
-        return { pages, products: products.map(p => createProductDTO(p)) };
+export async function getProductsPaginated(page: number, limit: number, searchParams: { name: string, categoryId: string } = { name: "", categoryId: "" }): Promise<{ pages: number, products: ProductDTO[] }> {
+    const { name, categoryId } = searchParams;
+
+    // Build where clause dynamically based on provided search parameters
+    const whereClause: { name?: { contains: string }, categoryId?: string } = {};
+
+    if (name) {
+        whereClause.name = { contains: name };
     }
+
+    if (categoryId) {
+        whereClause.categoryId = categoryId;
+    }
+
+    // Count products with the same filters
+    const productCount = await prisma.product.count({ where: whereClause });
+
+    // Normalize pagination parameters
+    limit = Math.max(1, limit ?? 4);
+    const pages = Math.ceil(productCount / limit);
+    page = Math.min(Math.max(1, page ?? 1), pages || 1);
+
+    // Single query with dynamic where clause
     const products = await prisma.product.findMany({
         include: { category: true },
+        where: whereClause,
         skip: (page - 1) * limit,
         take: limit,
     });
-    return { pages, products: products.map(p => createProductDTO(p)) };
+
+    return {
+        pages,
+        products: products.map(p => createProductDTO(p))
+    };
 }
 export async function getProductById(productId: string) {
     const p = await prisma.product.findUnique({
