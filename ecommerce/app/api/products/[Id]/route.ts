@@ -8,7 +8,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 }
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ Id: string }> }): Promise<Response> {
   const Id = (await params).Id;
-  const body: Product = await request.json();
+  const body: ProductDTO = await request.json();
   const prod = await updateProduct(Id, body);
   return NextResponse.json(prod, { status: 200 });
 }

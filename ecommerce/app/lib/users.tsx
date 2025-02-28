@@ -6,8 +6,8 @@ export default async function getUser() {
     const pictureUrl = `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 30 + 1)}.jpg`
     const products = await getProducts();
     const randomIndex = Math.floor(Math.random() * names.length);
-    const productsDTO: Product[] = products.map((product) => {
-        const p : Product = {
+    const productsDTO: ProductDTO[] = products.map((product) => {
+        const p: ProductDTO = {
             id: product.id,
             name: product.name,
             description: product.description,

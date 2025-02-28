@@ -6,7 +6,7 @@ export async function GET(): Promise<Response> {
   return NextResponse.json(products);
 }
 export async function POST(request: NextRequest): Promise<Response> {
-  const body: Product = await request.json();
+  const body: ProductDTO = await request.json();
   const p = createProduct(body);
   return NextResponse.json(p, { status: 201 });
 }

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Card from "../ui/card";
 import Button from "../ui/button";
 interface ProductCardProps {
-    product: Product
+    product: ProductDTO
 }
 export default function ProductCard({ product }: ProductCardProps) {
     return (

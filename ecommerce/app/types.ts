@@ -1,4 +1,4 @@
-type Product = {
+type ProductDTO = {
   id: string;
   name: string;
   price: number;
@@ -14,6 +14,6 @@ type User = {
   name: string;
   email: string;
   image?: string;
-  favorites: Product[];
+  favorites: ProductDTO[];
 };
 type IdParam = { params: Promise<{ Id: string }> };
