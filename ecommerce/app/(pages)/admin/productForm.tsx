@@ -6,13 +6,13 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [categoryId, setCategory] = useState("");
+    const [categoryId, setCategory] = useState(categories[0].id);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         fetch("/api/products", {
             method: "POST",
-            body: JSON.stringify({ name, description, price: Number(price), category: { category: categoryId } }),
+            body: JSON.stringify({ name, description, price: Number(price), category: { id: categoryId } }),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -30,7 +30,7 @@ export default function ProductForm({ categories }: { categories: Category[] }) 
         });
     };
     return (
-        <section className="flex flex-col gap-4 w-1/4 mx-auto bg-slate-500 p-8 rounded-lg">
+        <section className="flex flex-col gap-4 w-1/4 mx-auto dark:bg-gray-800 p-8 rounded-lg">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <input
                     type="text"
