@@ -22,7 +22,7 @@ export default async function getProducts(categoryName?: string | null | undefin
 }
 export async function getProductsPaginated(page: number, limit: number): Promise<{ pages: number, products: ProductDTO[] }> {
     const productCount = await prisma.product.count();
-    limit = limit ?? 5;
+    limit = limit ?? 4;
     page = page ?? 1;
     limit = Math.max(1, limit);
     const pages = Math.ceil(productCount / limit);

@@ -8,7 +8,7 @@ export default async function Home({
 }) {
     let { page, limit } = await searchParams;
     page = page ?? 1;
-    limit = limit ?? 5;
+    limit = limit ?? 4;
     const { pages, products } = await getProductsPaginated(Number(page), Number(limit));
     return (
         <section className="">
@@ -19,11 +19,12 @@ export default async function Home({
                 ))}
             </ul>
             <div className="flex justify-center space-x-4">
-                {Array.from({ length: pages }).map((_, i) => (
-                    <Link key={i} href={`/products?page=${i + 1}&limit=${limit}`} prefetch={true}>
-                        {i + 1}
-                    </Link>
-                ))}
+                {(Number(page) > 1) && <Link href={`/products?page=${Number(page) - 1}&limit=${limit}`} prefetch={true}>
+                    Anterior
+                </Link>}
+                {((Number(page) + 1) <= pages) && <Link href={`/products?page=${Number(page) + 1}&limit=${limit}`} prefetch={true}>
+                    Siguiente
+                </Link>}
             </div>
             <br />
         </section>
