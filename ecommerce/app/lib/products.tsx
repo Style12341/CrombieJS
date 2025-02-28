@@ -20,20 +20,33 @@ export default async function getProducts(categoryName?: string | null | undefin
     const productsDTO: ProductDTO[] = productsWithCategories.map(p => createProductDTO(p));
     return productsDTO;
 }
-export async function getProductsPaginated(page: number, limit: number): Promise<{ pages: number, products: ProductDTO[] }> {
-    const productCount = await prisma.product.count();
+export async function getProductsPaginated(page: number, limit: number, searchName: string = ""): Promise<{ pages: number, products: ProductDTO[] }> {
+    const productCount = await prisma.product.count({where: {name: {contains: searchName}}});
     limit = limit ?? 4;
     page = page ?? 1;
     limit = Math.max(1, limit);
     const pages = Math.ceil(productCount / limit);
     page = Math.max(1, page);
     page = Math.min(page, pages);
-    const products = (await prisma.product.findMany({
+    if (searchName) {
+        const products = await prisma.product.findMany({
+            include: { category: true },
+            where: {
+                name: {
+                    contains: searchName,
+                },
+            },
+            skip: (page - 1) * limit,
+            take: limit,
+        });
+        return { pages, products: products.map(p => createProductDTO(p)) };
+    }
+    const products = await prisma.product.findMany({
         include: { category: true },
         skip: (page - 1) * limit,
         take: limit,
-    })).map(p => createProductDTO(p));
-    return { pages, products };
+    });
+    return { pages, products: products.map(p => createProductDTO(p)) };
 }
 export async function getProductById(productId: string) {
     const p = await prisma.product.findUnique({
