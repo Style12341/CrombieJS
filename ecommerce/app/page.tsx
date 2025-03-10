@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import LandingImage from "../public/images/landing_image.jpg";
-import Logo from "../public/images/ecommerce_logo.svg";
 import Shirts from "../public/images/shirts_landing.jpeg";
 import Products from "../public/images/products_landing.jpg";
 
@@ -26,9 +25,6 @@ export default function LandingPage() {
             className="z-0"
           />
         </div>
-        <div className="absolute top-4 left-4 z-10" id="logo">
-          <Image src={Logo} alt="Logo" height={100} width={100} />
-        </div >
         <div className="flex flex-col items-center z-10 gap-10">
           <h1 className="relative bottom-56 text-white lg:text-8xl sm:text-6xl text-4xl">
             Eccomerce
