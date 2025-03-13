@@ -15,7 +15,7 @@ const Section = ({ children, className = "" }: { children: ReactNode, className:
 export default function LandingPage() {
   return (
     <div className="w-full h-auto">
-      <Section className="relative bg-blue-500 text-white">
+      <Section className="relative bg-black text-white">
         <div className="absolute inset-0 w-full h-full">
           <Image
             src={LandingImage}
