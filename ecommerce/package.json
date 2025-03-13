@@ -12,6 +12,7 @@
     "seed": "ts-node prisma/seed.js"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.12.5",
     "@prisma/client": "^6.4.1",
     "next": "15.1.7",
     "react": "^19.0.0",

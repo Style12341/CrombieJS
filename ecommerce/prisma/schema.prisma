@@ -13,8 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  USER
+}
+
 model Product {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   name        String
   price       Float
   description String
@@ -27,9 +32,11 @@ model Category {
   name     String
   products Product[]
 }
+
 model User {
   id       String   @id @default(uuid())
   email    String   @unique
+  role     UserRole @default(USER)
   name     String
   password String
 }
