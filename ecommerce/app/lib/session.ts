@@ -1,15 +1,24 @@
 "use server";
-import { SignJWT, jwtVerify } from "jose";
+import { User, UserRole } from "@prisma/client";
+import { JWTPayload, SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { cache } from "react";
-import { redirect } from "next/navigation";
 
-const secretKey = process.env.SESSION_SECRET;
+const secretKey = process.env.JWT_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function createSession(userId: string) {
+interface Session {
+  userId: string;
+  userRole: UserRole;
+  expiresAt: Date;
+};
+interface JWTSession extends JWTPayload, Session { }
+
+export async function createSession(user: User) {
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-  const session = await encrypt({ userId, expiresAt });
+  const userId = user.id;
+  const userRole = user.role;
+  const session = await encrypt({ userId, userRole, expiresAt });
   const cookieStore = await cookies();
 
   cookieStore.set("session", session, {
@@ -21,7 +30,7 @@ export async function createSession(userId: string) {
   });
 }
 
-export async function encrypt(payload: any) {
+export async function encrypt(payload: JWTSession) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -31,11 +40,11 @@ export async function encrypt(payload: any) {
 
 export async function decrypt(session: string | undefined = "") {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify<JWTSession>(session, encodedKey, {
       algorithms: ["HS256"],
     });
     return payload;
-  } catch (error) {
+  } catch (err) {
     console.log("Failed to verify session");
   }
 }
@@ -50,5 +59,5 @@ export const verifySession = cache(async () => {
   if (!session) {
     return { isAuth: false };
   }
-  return { isAuth: true, userId: session?.userId };
+  return { isAuth: true, userId: session?.userId, userRole: session?.userRole };
 });

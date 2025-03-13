@@ -1,13 +1,11 @@
 "use server";
 import { verifySession } from "@/app/lib/session";
 import Link from "next/link";
-import Button from "./button";
-import { logout } from "@/app/actions/auth";
+import { logout } from "@/app/actions/logout";
 
 export default async function Navbar() {
     // Get user from session    
     const session = await verifySession();
-    console.log
 
     return (
         <nav className="flex justify-center gap-6 items-center p-4">
@@ -15,14 +13,16 @@ export default async function Navbar() {
             <Link href="/categories" className="text-white font-bold">Categories</Link>
             {session.isAuth ?
                 <>
-                    <Link href="/profile" className="text-white font-bold absolute right-24">Profile</Link>
-                    <form action={logout}>
-                        <button type="submit" className="text-white font-bold absolute right-5">Logout</button>
-                    </form>
+                    <Link href={session.userRole === "ADMIN" ? "/admin" : "/profile"} className="text-white font-bold absolute right-24">Profile</Link>
+                    <div className="absolute right-5">
+                        <form action={logout}>
+                            <button type="submit" className="text-white font-bold">Logout</button>
+                        </form>
+                    </div>
                 </>
                 :
                 <>
-                    <Link href="/login" className="text-white font-bold absolute right-20">Login</Link>
+                    <Link href="/login" className="text-white font-bold absolute right-24">Login</Link>
                     <Link href="/signup" className="text-white font-bold absolute right-5">Signup</Link>
                 </>
             }

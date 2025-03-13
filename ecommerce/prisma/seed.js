@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-
+import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -18,43 +18,50 @@ async function main() {
   const mouse = await prisma.category.findFirst({ where: { name: "Mouse" } });
 
   // Insertar usuarios
+  const userpassword = await bcrypt.hash("testtest", 10);
   await prisma.user.createMany({
     data: [
       {
         name: "Juan Pérez",
         email: "juan@example.com",
-        password: "hashedpassword123",
+        password: userpassword,
       },
       {
         name: "María López",
         email: "maria@example.com",
-        password: "securepassword456",
+        password: userpassword,
       },
       {
         name: "Carlos Fernández",
         email: "carlos@example.com",
-        password: "strongpass789",
+        password: userpassword,
       },
       {
         name: "Ana Gómez",
         email: "ana@example.com",
-        password: "password123",
+        password: userpassword,
       },
       {
         name: "Pedro Sánchez",
         email: "pedro@example.com",
-        password: "safeandsecure2024",
+        password: userpassword,
       },
       {
         name: "Lucía Ramírez",
         email: "lucia@example.com",
-        password: "mypass456",
+        password: userpassword,
       },
       {
         name: "Diego Torres",
-        email: "diego@example.com",
-        password: "topsecret789",
+        email: "user@user.com",
+        password: await bcrypt.hash("useruser", 10),
       },
+      {
+        name: "Admin user",
+        email: "admin@admin.com",
+        password: await bcrypt.hash("adminadmin", 10),
+        role: "ADMIN",
+      }
     ],
   });
 
