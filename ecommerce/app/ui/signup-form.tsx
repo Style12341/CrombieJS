@@ -9,7 +9,11 @@ export default function SignupForm() {
   return (
     <form action={action} className="max-w-md mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">Create Account</h2>
-
+      {state?.message && (
+        <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-800 rounded-md">
+          <p className="text-sm text-red-600 dark:text-red-400">{state.message}</p>
+        </div>
+      )}
       <div className="mb-4">
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
         <input
