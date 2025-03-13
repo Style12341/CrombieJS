@@ -1,5 +1,5 @@
 import getCategories from "../../lib/categories";
-import Card from "../ui/card";
+import Card from "../../ui/card";
 import Link from "next/link";
 
 export default async function Home() {

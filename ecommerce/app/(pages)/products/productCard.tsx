@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
-import Card from "../ui/card";
-import Button from "../ui/button";
+import Card from "../../ui/card";
+import Button from "../../ui/button";
 import Image from "next/image";
 interface ProductCardProps {
     product: ProductDTO
@@ -16,8 +16,8 @@ export default function ProductCard({ product, complete = false, children }: Pro
                 <p className="text-white">Price: {product.price}</p>
             </div>
             <div className="flex flex-col items-center gap-4">
-            {complete && product.image && <Image src={product.image} alt={product.name} width={200} height={200} />}
-            {complete && <p className="pb-4">{product.description}</p>}
+                {complete && product.image && <Image src={product.image} alt={product.name} width={200} height={200} />}
+                {complete && <p className="pb-4">{product.description}</p>}
             </div>
             {children}
             <div className="flex justify-between">
